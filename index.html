@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Counter</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+    }
+
+    .container {
+        max-width: 90%;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    textarea {
+        width: 98%;
+        min-height: 150px;
+        margin-bottom: 10px;
+        min-height: 300px;
+        font-size: 18px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        resize: none;
+        overflow: auto;
+    }
+
+    .actions {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    button {
+        padding: 10px 20px;
+        margin-right: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    #wordCount {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Zawata's word counter</h2>
+    <textarea id="text" placeholder="Type or paste your text here..."></textarea>
+    <div class="actions">
+      <button id="copyBtn">Copy Text</button>
+    </div>
+    <div id="wordCount"></div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const textArea = document.getElementById('text');
+      const copyButton = document.getElementById('copyBtn');
+      const wordCountDisplay = document.getElementById('wordCount');
+
+      // Function to update word count and adjust textarea height
+      function updateWordCount() {
+        const text = textArea.value.trim();
+        const words = text.split(/\s+/).filter(word => word !== '');
+        const wordCount = words.length;
+        wordCountDisplay.textContent = `Word Count: ${wordCount}`;
+
+        // Adjust textarea height based on content
+        textArea.style.height = 'auto'; // Reset height to auto
+        textArea.style.height = textArea.scrollHeight + 'px'; // Set height to scroll height
+      }
+
+      // Initial call to set up initial word count and textarea height
+      updateWordCount();
+
+      textArea.addEventListener('input', function() {
+        updateWordCount();
+      });
+
+      copyButton.addEventListener('click', function() {
+        const text = textArea.value.trim();
+        navigator.clipboard.writeText(text)
+          .then(() => {
+            alert('Text copied to clipboard!');
+          })
+          .catch(err => {
+            console.error('Failed to copy text: ', err);
+          });
+      });
+    });
+  </script>
+</body>
+</html>
